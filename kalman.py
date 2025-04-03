@@ -399,6 +399,7 @@ def generate_synthetic_workout_data(num_samples=1000, num_reps=10, noise_level=0
         
         # Assign the signal to the adjusted slice
         rep_signal[start_idx:end_idx] = rep_data 
+        
     
     # Create 3D acceleration data (x, y, z)
     # Assume y is the primary axis for vertical movement
