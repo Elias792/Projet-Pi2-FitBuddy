@@ -389,8 +389,16 @@ def generate_synthetic_workout_data(num_samples=1000, num_reps=10, noise_level=0
     
     for idx in rep_indices:
         center = idx
-        rep_signal[center-rep_width//2:center+rep_width//2] = np.sin(
-            np.linspace(0, np.pi, rep_width)) * (0.8 + 0.4 * np.random.random())
+        # Adjust the slice to ensure it has the same size as the generated signal
+        # by using min to make sure we don't exceed the array bounds
+        start_idx = max(0, center - rep_width // 2)
+        end_idx = min(num_samples, center + rep_width // 2)
+        
+        # Generate the signal for the repetition
+        rep_data = np.sin(np.linspace(0, np.pi, end_idx - start_idx)) * (0.8 + 0.4 * np.random.random())
+        
+        # Assign the signal to the adjusted slice
+        rep_signal[start_idx:end_idx] = rep_data 
     
     # Create 3D acceleration data (x, y, z)
     # Assume y is the primary axis for vertical movement
@@ -402,7 +410,6 @@ def generate_synthetic_workout_data(num_samples=1000, num_reps=10, noise_level=0
     accel_data = np.column_stack((x_accel, y_accel, z_accel))
     
     return accel_data
-
 
 if __name__ == "__main__":
     # Generate synthetic data
