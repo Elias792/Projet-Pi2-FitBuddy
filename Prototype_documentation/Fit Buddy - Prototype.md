@@ -10,13 +10,13 @@ This prototype consists of :
 ## **Hardware Components**
 ### **1. ESP32-VROOM**
 `ESP32-VROOM` :
-![[Pasted image 20250407131149.png]]
+![ESP32](./Pasted%20image%2020250407131149.png)
 - **Role**: Collects motion data from the LIS3MDL sensor.
 - **Wireless Connectivity**: Bluetooth/BLE for communication with the Raspberry Pi.
 
 ### **2. Raspberry Pi 4**
 `Raspberry Pi4` :
-![[WhatsApp Image 2025-04-07 à 13.15.35_0fe018c1.jpg]]
+![Raspberry Pi4](./WhatsApp%20Image%202025-04-07%20à%2013.15.35_0fe018c1.jpg)
 - **Role**: Receives and processes data from the ESP32.
 
 # ## **Bluetooth Connection (Primary Challenge)**
@@ -56,7 +56,7 @@ For simplicity, we used the **Grove I2C** interface of the accelerometer senso
 - **LIS3MDL Accelerometer** (Grove I2C connector)
 - **ESP32-VROOM** (I2C pins)
 
-![[WhatsApp Image 2025-04-07 à 13.31.51_53819ecd.jpg]]
+![Sensor](WhatsApp%20Image%202025-04-07%20%C3%A0%2013.31.51_53819ecd.jpg)
 
 ### **Wiring Diagram :**
 
@@ -66,9 +66,8 @@ For simplicity, we used the **Grove I2C** interface of the accelerometer senso
 | Red (VCC)        | `3V3`               |
 | Yellow (SDA)     | `GPIO 21` (I2C_SDA) |
 | Blue (SCL)       | `GPIO 22` (I2C_SCL) |
-![[doc-esp32-pinout-reference-wroom-devkit_9db79068-c59c-4142-91f0-bb361d3b7dac.png]]
 
-
+![ESP32 Pinout](./doc-esp32-pinout-reference-wroom-devkit_9db79068-c59c-4142-91f0-bb361d3b7dac.png)
 
 # ## **Python Code Implementation (Raspberry Pi 4)**
 
@@ -272,4 +271,3 @@ except KeyboardInterrupt:
 ```
 
 
-# ## **Prototype Overview**
