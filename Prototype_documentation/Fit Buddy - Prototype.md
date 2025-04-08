@@ -13,6 +13,7 @@ _Work carried out on the prototype by **Gabriel Calmel** and **Elias Marchani**.
 - Development of the Python side (data reception and processing)
 - Analysis of the data received via serial communication
 - Software testing (signal validation, debugging)
+- Sensor EWB (calibrage)
 ### Duo
 - Documentation work on hardware components
 - Research and analysis of previous hardware (nRF modules)
@@ -36,6 +37,11 @@ This prototype consists of :
 `Raspberry Pi4` :
 ![Raspberry Pi4](./WhatsApp%20Image%202025-04-07%20à%2013.15.35_0fe018c1.jpg)
 - **Role**: Receives and processes data from the ESP32.
+### **3. EWB (calibration)**
+`EWB`:
+![ESP32 Bluetooth Binding](./WhatsApp%20Image%202025-04-08%20à%2013.16.32_47f16f13.jpg)
+- **Role**: Calibration — ensures synchronization between the accelerometer and the EWB to prevent cumulative measurement errors.
+
 
 # ## **Bluetooth Connection (Primary Challenge)**
 #### **1. Bind ESP32 to Raspberry Pi via RFCOMM**
