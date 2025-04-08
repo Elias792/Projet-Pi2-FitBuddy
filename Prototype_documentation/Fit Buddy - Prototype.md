@@ -23,7 +23,7 @@ This prototype consists of :
 #### **1. Bind ESP32 to Raspberry Pi via RFCOMM**
 Run the following command in the Raspberry Pi terminal to bind the ESP32’s MAC address to a serial port (`rfcomm0`):
 
-```cmd
+```bash
 sudo rfcomm bind /dev/rfcomm0 14:2B:2F:DA:00 #MACADDRESS
 ```
 #### **2. Scan & Pair Using `bluetoothctl`**
@@ -68,6 +68,75 @@ For simplicity, we used the **Grove I2C** interface of the accelerometer senso
 | Blue (SCL)       | `GPIO 22` (I2C_SCL) |
 
 ![ESP32 Pinout](./doc-esp32-pinout-reference-wroom-devkit_9db79068-c59c-4142-91f0-bb361d3b7dac.png)
+
+### **ESP32-Vroom Code Implementation**
+
+To flash the code on the ESP32 we use the `arduino IDE`
+### **library implementation
+
+1. Download the libraries from GitHub:
+	___https://github.com/adafruit/Adafruit_LSM6DS
+2. Unzip the .zip files.
+3. Copy the folders to:
+	- **Windows**: `Documents\Arduino\libraries\`
+	- **Mac/Linux**: `~/Documents/Arduino/libraries/`
+
+Before trying to integrate the code into the board, make sure your computer recognizes the board (microcontroller) on your USB port
+
+Here is the code that allows the esp32 to send data via Bluetooth (BLE) :
+
+```C++
+#include <Wire.h>
+#include <Adafruit_LSM6DSOX.h>
+#include <Adafruit_LIS3MDL.h>
+#include <Adafruit_Sensor.h>
+#include <BluetoothSerial.h>
+  
+#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
+#error Bluetooth is not enabled! Please run `make menuconfig` to enable it
+#endif
+BluetoothSerial SerialBT;
+Adafruit_LSM6DSOX lsm6dsox;
+Adafruit_LIS3MDL lis3mdl;
+void setup() {
+    Serial.begin(115200);
+    SerialBT.begin("ESP32_GAB");  
+    Wire.begin();
+    if (!lsm6dsox.begin_I2C()) {
+        Serial.println("❌ Erreur : LSM6DSOX non détecté !");
+        SerialBT.println("❌ LSM6DSOX non détecté !");
+        while (1) delay(10);
+    }
+    Serial.println("✅ LSM6DSOX détecté !");
+    SerialBT.println("✅ LSM6DSOX détecté !");
+    if (!lis3mdl.begin_I2C()) {
+        Serial.println("❌ Erreur : LIS3MDL non détecté !");
+        SerialBT.println("❌ LIS3MDL non détecté !");
+        while (1) delay(10);
+    }
+    Serial.println("✅ LIS3MDL détecté !");
+    SerialBT.println("✅ LIS3MDL détecté !");
+}
+void loop() {
+    sensors_event_t accel, gyro, temp, mag;
+    lsm6dsox.getEvent(&accel, &gyro, &temp);
+    lis3mdl.getEvent(&mag);
+    String message = "📊 IMU Data\n";
+    message += "🔹 Accel (m/s²) → X: " + String(accel.acceleration.x, 2) +
+               " Y: " + String(accel.acceleration.y, 2) +
+               " Z: " + String(accel.acceleration.z, 2) + "\n";
+    message += "🔹 Gyro (rad/s) → X: " + String(gyro.gyro.x, 2) +
+               " Y: " + String(gyro.gyro.y, 2) +
+               " Z: " + String(gyro.gyro.z, 2) + "\n";
+    message += "🔹 Magnet (uT) → X: " + String(mag.magnetic.x, 2) +
+               " Y: " + String(mag.magnetic.y, 2) +
+               " Z: " + String(mag.magnetic.z, 2) + "\n";
+    message += "🌡️ Température: " + String(temp.temperature, 2) + " °C\n";
+    Serial.println(message);  
+    SerialBT.println(message);  
+    delay(100);
+}
+```
 
 # ## **Python Code Implementation (Raspberry Pi 4)**
 
@@ -269,5 +338,11 @@ except KeyboardInterrupt:
     print(colored("Arrêt du programme.", 'red'))  
     ser.close()
 ```
+
+### **Prototype Overview**
+
+![Overview](WhatsApp%20Image%202025-04-08%20%C3%A0%2015.57.04_bcd906d9.jpg)
+
+
 
 
