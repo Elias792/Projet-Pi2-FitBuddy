@@ -1,5 +1,23 @@
 ## **Overview**
 
+_Work carried out on the prototype by **Gabriel Calmel** and **Elias Marchani**._
+
+### Gabriel Calmel
+- Wiring of electronic components (sensor – microcontroller)
+- Implementation of the Arduino code
+- Python programming for data processing
+- Writing of the general documentation and technical explanations
+
+### Elias Marchani
+- Research on components (sensors, compatible microcontrollers)
+- Development of the Python side (data reception and processing)
+- Analysis of the data received via serial communication
+- Software testing (signal validation, debugging)
+### Duo
+- Documentation work on hardware components
+- Research and analysis of previous hardware (nRF modules)
+- Real-life testing at the gym (measurements and evaluations)
+
 This prototype consists of :
 - **ESP32-VROOM** (microcontroller with Bluetooth/BLE capabilities)
 - **LIS3MDL** (accelerometer for motion detection)
